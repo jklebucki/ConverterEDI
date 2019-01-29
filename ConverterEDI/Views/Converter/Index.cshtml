@@ -1,0 +1,154 @@
+﻿@{
+ViewData["Title"] = "Converter";
+}
+
+<div class="text-center">
+    <h1 class="display-4">SBen Converter</h1>
+    <br />
+    <h4 class="text-justify">System umożliwiający konwersję plików dostawy do formatu akceptowalnego w systemie SBen</h4>
+    <br />
+</div>
+<div>
+    <div class="row">
+        <div class="col-md-12 mb-1">
+            <div id="step1-info" class="align-middle">
+                <p>1. Wybierz dostawcę</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 mb-3">
+            <select class="custom-select" id="selectMenu" onchange="onSupplierSelect()">
+                <option selected>Wybierz dostawcę</option>
+                <option value="1">CocaCola (Comarch EDI)</option>
+                <option value="2">Dostawca 2</option>
+                <option value="3">Dostawca 3</option>
+            </select>
+        </div>
+    </div>
+    <div class="row" id="step2-info" hidden>
+        <div class="col-md-12 mb-1">
+            <div class="align-middle">
+                <p>2. Wybierz plik dostawy</p>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="selectFile" hidden>
+        <div class="col-md-8 mb-3">
+            <div class="custom-file">
+                <input type="file" name="deliveryFile" class="custom-file-input form-control-sm" id="deliveryFile" />
+                <label class="custom-file-label" for="deliveryFile" data-browse="Przeglądaj">Wybierz plik</label>
+            </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <div id="loadingInfo" class="align-middle" hidden>
+                Przetwarzam...
+            </div>
+        </div>
+        <div class="col-md-2 mb-3" id="loading-spinner" hidden>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-md-12" id="response">
+
+        </div>
+    </div>
+    <div class="row" id="error" hidden>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>BŁĄD!</strong> Plik nie ma zgodnego formatu.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+    <div id="downloadButton" hidden>
+        <a class="btn btn-outline-primary" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC" })'
+            download>Pobierz</a>
+    </div>
+</div>
+@section scripts {
+<script>
+
+    function renderResponse(data) {
+        var component = '<table style="width: 100%;" class="table table-bordered table-sm">' +
+            '<thead class="thead-light"><tr><th>Nazwa</th><th>Ilość</th><th>Cena</th><th>EAN</th></tr></thead><tbody>';
+        data.map(function (el) {
+            component += "<tr><td>" + el['productName'] + "</td>"
+                + "<td>" + el['quantity'] + "</td>"
+                + "<td>" + el['purchasePrice'] + "</td>"
+                + "<td>" + el['ean'] + "</td>"
+                + "</tr>";
+        });
+        component += "</tbody></table>";
+        $("#response").html(component);
+    }
+
+    function onSupplierSelect() {
+        $("#response").html('');
+        $('#deliveryFile').val('');
+        $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
+        $("#downloadButton").prop('hidden', true);
+        if ($("#selectMenu").val() == 1) {
+            $("#selectFile").prop('hidden', false);
+            $("#step2-info").prop('hidden', false);
+            $("#error").prop('hidden', true);
+        } else {
+            $("#selectFile").prop('hidden', true);
+            $("#step2-info").prop('hidden', true);
+            $("#error").prop('hidden', true);
+        }
+    }
+
+    function loading(prop) {
+        $("#loadingInfo").prop('hidden', !prop);
+        $("#loading-spinner").prop('hidden', !prop);
+        $("#deliveryFile").prop('disabled', prop);
+    };
+
+
+
+    $("#deliveryFile").change(function () {
+        loading(true);
+        var files = $('#deliveryFile')[0].files;
+
+        var model = new FormData();
+        for (var i = 0, f; f = files[i]; i++) {
+            model.append("files", $('#deliveryFile')[0].files[i]);
+            model.append("supplierId", $("#selectMenu").val());
+        }
+
+        $.ajax({
+            url: '@Url.Action("UploadFiles", "Converter")',
+            type: "POST",
+            data: model,
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+
+            success: function (data) {
+                loading(false);
+                //console.log(data['data']);
+                if (!data['error']) {
+                    $("#error").prop('hidden', true);
+                    renderResponse(data['data']);
+                    $("#downloadButton").prop('hidden', false);
+                } else {
+                    $("#error").prop('hidden', false);
+                    $("#downloadButton").prop('hidden', true);
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr);
+                loading(false);
+                $("#downloadButton").prop('hidden', true);
+            }
+        });
+    });
+
+</script>
+}
