@@ -65,12 +65,17 @@ ViewData["Title"] = "Converter";
         </div>
     </div>
     <div id="downloadButton" hidden>
-        <a class="btn btn-outline-primary" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC" })'
-            download>Pobierz</a>
+        <a class="btn btn-outline-primary" onclick="hideDownloadButtons(true)" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC", fileVersion="full" })'
+           download>Pobierz plik - pełny</a>
+        <a class="btn btn-outline-primary" onclick="hideDownloadButtons(true)" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC", fileVersion="short" })'
+           download>Pobierz plik - skrócony</a>
     </div>
 </div>
 @section scripts {
 <script>
+    function hideDownloadButtons(value) {
+        $("#downloadButton").prop('hidden', value);
+    }
 
     function renderResponse(data) {
         var component = '<table style="width: 100%;" class="table table-bordered table-sm">' +

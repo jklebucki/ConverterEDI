@@ -29,7 +29,7 @@ namespace ConverterEDI.Controllers
         }
 
         [HttpGet]
-        public IActionResult DownloadFile(string importType)
+        public IActionResult DownloadFile(string importType, string fileVersion)
         {
 
             var data = _conversionService._ConvertedData.FirstOrDefault(x => x.UserName == User.Identity.Name && x.ConversionCode == importType).ConvertedFile;
@@ -44,9 +44,7 @@ namespace ConverterEDI.Controllers
                     + row.VatRate + ";"
                     + row.PKWIUCode + ";"
                     + row.Unit + ";"
-                    + row.ProductCode + ";"
-                    + row.StationId + ";"
-                    + row.SellingPrice
+                    + row.ProductCode + fileVersion == "full" ? (";" + row.StationId + ";" + row.SellingPrice) : ""
                     + Environment.NewLine;
                 /*
                 Teraz objaśnienie dla pól:
@@ -100,8 +98,8 @@ namespace ConverterEDI.Controllers
                         rows.Add(new EdiDataRow
                         {
                             EAN = item.LineItem.EAN,
-                            Quantity = item.LineItem.InvoiceQuantity.Replace('.', ','),
-                            PurchasePrice = item.LineItem.InvoiceUnitNetPrice.Replace('.', ','),
+                            Quantity = item.LineItem.InvoiceQuantity.Replace(',', '.'),
+                            PurchasePrice = item.LineItem.InvoiceUnitNetPrice.Replace(',', '.'),
                             ProductName = item.LineItem.ItemDescription,
                             VatRate = item.LineItem.TaxRate.Split('.')[0],
                             PKWIUCode = "",
