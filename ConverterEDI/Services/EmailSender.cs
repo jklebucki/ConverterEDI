@@ -29,7 +29,7 @@ namespace ConverterEDI.Services
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("EDI Portal", email));
+            message.From.Add(new MailboxAddress("EDI Portal", username));
             message.To.Add(new MailboxAddress(email));
             message.Subject = subject;
 
