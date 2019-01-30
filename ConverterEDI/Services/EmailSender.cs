@@ -75,8 +75,8 @@ namespace ConverterEDI.Services
             {
                 //ignore
             }
-            Console.WriteLine("UserName: " + emailConfig.UserName);
-            Console.WriteLine("Password: " + emailConfig.Password);
+            //Console.WriteLine("UserName: " + emailConfig.UserName);
+            //Console.WriteLine("Password: " + emailConfig.Password);
             return emailConfig;
         }
     }
