@@ -52,9 +52,9 @@ namespace ConverterEDI.Services
                     client.Disconnect(true);
                 }
             }
-            catch //(Exception ex)
+            catch (Exception ex)
             {
-                //return Task.FromException(ex);
+                Console.WriteLine("SendMailError: " + ex.Message);
                 return Task.CompletedTask;
             }
             return Task.CompletedTask;
