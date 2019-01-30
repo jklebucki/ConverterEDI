@@ -26,7 +26,7 @@ namespace ConverterEDI.Services
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(_hostingEnvironment.ContentRootPath)
-                .AddJsonFile("config.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("config.json")
                 .Build();
 
             username = config.GetValue<string>("username");
@@ -61,9 +61,10 @@ namespace ConverterEDI.Services
                     client.Disconnect(true);
                 }
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
-                return Task.FromException(ex);
+                //return Task.FromException(ex);
+                return Task.CompletedTask;
             }
 
             return Task.CompletedTask;
