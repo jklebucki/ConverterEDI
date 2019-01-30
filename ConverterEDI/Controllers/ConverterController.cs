@@ -46,7 +46,7 @@ namespace ConverterEDI.Controllers
                     + row.Unit + ";"
                     + row.ProductCode + ";"
                     + row.StationId + ";"
-                    + row.SellingPrice + ";"
+                    + row.SellingPrice
                     + Environment.NewLine;
                 /*
                 Teraz objaśnienie dla pól:
@@ -63,7 +63,8 @@ namespace ConverterEDI.Controllers
                  */
             }
 
-            byte[] bytes = Encoding.ASCII.GetBytes(rows);
+
+            byte[] bytes = Encoding.GetEncoding("windows-1250").GetBytes(rows);
             var result = new FileContentResult(bytes, "application/octet-stream");
             result.FileDownloadName = "document.csv";
             return result;
