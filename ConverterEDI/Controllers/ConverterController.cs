@@ -66,7 +66,7 @@ namespace ConverterEDI.Controllers
 
             byte[] bytes = Encoding.GetEncoding("Windows-1250").GetBytes(rows);
             var result = new FileContentResult(bytes, "application/octet-stream");
-            result.FileDownloadName = "document.csv";
+            result.FileDownloadName = fileVersion == "full" ? "document-full.csv" : "document-short.csv";
             return result;
         }
 
