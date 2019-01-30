@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -69,10 +70,13 @@ namespace ConverterEDI.Services
                 {
                     emailConfig = JsonConvert.DeserializeObject<EmailConfig>(sr.ReadToEnd());
                 }
-            } catch
+            }
+            catch
             {
                 //ignore
             }
+            Console.WriteLine("UserName: " + emailConfig.UserName);
+            Console.WriteLine("Password: " + emailConfig.Password);
             return emailConfig;
         }
     }
