@@ -37,6 +37,7 @@ namespace ConverterEDI.Controllers
             string rows = "";
             foreach (var row in data)
             {
+                string option = fileVersion == "full" ? (";" + row.StationId + ";" + row.SellingPrice) : "";
                 rows += row.EAN + ";"
                     + row.Quantity + ";"
                     + row.PurchasePrice + ";"
@@ -44,7 +45,7 @@ namespace ConverterEDI.Controllers
                     + row.VatRate + ";"
                     + row.PKWIUCode + ";"
                     + row.Unit + ";"
-                    + row.ProductCode + fileVersion == "full" ? (";" + row.StationId + ";" + row.SellingPrice) : ""
+                    + row.ProductCode + option
                     + Environment.NewLine;
                 /*
                 Teraz objaśnienie dla pól:
@@ -61,8 +62,9 @@ namespace ConverterEDI.Controllers
                  */
             }
 
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-            byte[] bytes = Encoding.GetEncoding("windows-1250").GetBytes(rows);
+            byte[] bytes = Encoding.GetEncoding("Windows-1250").GetBytes(rows);
             var result = new FileContentResult(bytes, "application/octet-stream");
             result.FileDownloadName = "document.csv";
             return result;
