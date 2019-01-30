@@ -1,13 +1,11 @@
-﻿using MailKit.Net.Smtp;
+﻿using ConverterEDI.Models;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using MimeKit;
-using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ConverterEDI.Services
@@ -17,26 +15,18 @@ namespace ConverterEDI.Services
         private readonly string username;
         private readonly string passsword;
         private readonly string smtpAddress;
-
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public EmailSender(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
-
-            var config = new ConfigurationBuilder()
-                .SetBasePath(_hostingEnvironment.ContentRootPath)
-                .AddJsonFile("config.json")
-                .Build();
-
-            username = config.GetValue<string>("username");
-            passsword = config.GetValue<string>("password");
-            smtpAddress = config.GetValue<string>("smtpAddress");
+            username = ReadConfigFile().UserName;
+            passsword = ReadConfigFile().Password;
+            smtpAddress = ReadConfigFile().SmtpAddress;
         }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("EDI Portal", email));
             message.To.Add(new MailboxAddress(email));
@@ -66,8 +56,24 @@ namespace ConverterEDI.Services
                 //return Task.FromException(ex);
                 return Task.CompletedTask;
             }
-
             return Task.CompletedTask;
+        }
+
+        public EmailConfig ReadConfigFile()
+        {
+            var configFile = Path.Combine(_hostingEnvironment.ContentRootPath, "config.json");
+            EmailConfig emailConfig = new EmailConfig();
+            try
+            {
+                using (StreamReader sr = new StreamReader(configFile))
+                {
+                    emailConfig = JsonConvert.DeserializeObject<EmailConfig>(sr.ReadToEnd());
+                }
+            } catch
+            {
+                //ignore
+            }
+            return emailConfig;
         }
     }
 }
