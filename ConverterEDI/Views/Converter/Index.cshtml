@@ -59,9 +59,9 @@ ViewData["Title"] = "Converter";
     <div class="row" id="error" hidden>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>BŁĄD!</strong> Plik nie ma zgodnego formatu.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-            </button>
+            </button> -->
         </div>
     </div>
     <div id="downloadButton" hidden>
@@ -99,6 +99,7 @@ ViewData["Title"] = "Converter";
         $('#deliveryFile').val('');
         $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
         $("#downloadButton").prop('hidden', true);
+        $("#response").html('');
         if ($("#selectMenu").val() <= 2) {
             $("#selectFile").prop('hidden', false);
             $("#step2-info").prop('hidden', false);
@@ -138,11 +139,12 @@ ViewData["Title"] = "Converter";
             success: function (data) {
                 loading(false);
                 //console.log(data['data']);
-                if (!data['error']) {
+                if (data['error'] == false) {
                     $("#error").prop('hidden', true);
                     renderResponse(data['data']);
                     $("#downloadButton").prop('hidden', false);
                 } else {
+                    $("#response").html('');
                     $("#error").prop('hidden', false);
                     $("#downloadButton").prop('hidden', true);
                 }
