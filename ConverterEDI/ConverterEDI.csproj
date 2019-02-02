@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CocaColaToEDI\CocaColaToEDI.csproj" />
+    <ProjectReference Include="..\CocaColaTxtEDI\CocaColaTxtEDI.csproj" />
   </ItemGroup>
 
 </Project>

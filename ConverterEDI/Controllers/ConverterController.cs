@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CocaColaToEDI.Services;
+using CocaColaTxtEDI.Services;
+using ConverterEDI.Infrustructure;
 using ConverterEDI.Models;
 using ConverterEDI.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -73,61 +76,51 @@ namespace ConverterEDI.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFiles(List<IFormFile> files, string supplierId)
         {
-            DeserializeService deserialize = new DeserializeService();
-            DocumentInvoice _documentInvoice = new DocumentInvoice();
-
             _conversionService._ConvertedData.RemoveAll(x => x.UserName == User.Identity.Name);
-
             bool isError = false;
-
+            Stream sr = Stream.Null;
             foreach (var file in files)
             {
                 if (file.Length > 0)
                 {
-                    var sr = file.OpenReadStream();
-                    _documentInvoice = await deserialize.ImportStream(sr);
+                    sr = file.OpenReadStream();
                 }
             }
 
             List<EdiDataRow> rows = new List<EdiDataRow>();
-
-            try
+            string conversionCode = "NA";
+            string errorMessage = "";
+            switch (supplierId)
             {
-                if (_documentInvoice.InvoiceLines.Line.Count > 0)
-                {
-                    foreach (var item in _documentInvoice.InvoiceLines.Line)
-                    {
-                        rows.Add(new EdiDataRow
-                        {
-                            EAN = item.LineItem.EAN,
-                            Quantity = item.LineItem.InvoiceQuantity.Replace(',', '.'),
-                            PurchasePrice = item.LineItem.InvoiceUnitNetPrice.Replace(',', '.'),
-                            ProductName = item.LineItem.ItemDescription,
-                            VatRate = item.LineItem.TaxRate.Split('.')[0],
-                            PKWIUCode = "",
-                            Unit = item.LineItem.UnitOfMeasure,
-                            ProductCode = "",
-                            StationId = "",
-                            SellingPrice = ""
-                        });
-
-                    }
-                }
-            }
-            catch
-            {
-                isError = true;
+                case "1":
+                    DeserializeServiceXml deserializeXml = new DeserializeServiceXml();
+                    DocumentInvoice _documentInvoice = new DocumentInvoice();
+                    _documentInvoice = await deserializeXml.ImportStream(sr);
+                    isError = deserializeXml.IsError;
+                    var dtXml = new LoadFromXml();
+                    rows = dtXml.Load(_documentInvoice);
+                    isError = dtXml.isError;
+                    conversionCode = "CC";
+                    break;
+                case "2":
+                    DeserializeServiceTxt deserializeTxt = new DeserializeServiceTxt();
+                    var flatRows = await deserializeTxt.ImportStream(sr);
+                    isError = deserializeTxt.IsError;
+                    var dtTxt = new LoadFromTxt();
+                    rows = dtTxt.Load(flatRows);
+                    isError = dtTxt.isError;
+                    conversionCode = "CC";
+                    break;
+                default:
+                    break;
             }
 
-
-
-            isError = deserialize.IsError;
             isError = rows.Count == 0 ? true : false;
             try
             {
                 _conversionService._ConvertedData.Add(new ConvertedData
                 {
-                    ConversionCode = "CC",
+                    ConversionCode = conversionCode,
                     UserName = User.Identity.Name,
                     ConvertedFile = rows
                 });
@@ -137,7 +130,7 @@ namespace ConverterEDI.Controllers
                 isError = true;
             }
 
-            return Json(new { error = isError, data = rows });
+            return Json(new { error = isError, message = errorMessage, data = rows });
         }
     }
 }

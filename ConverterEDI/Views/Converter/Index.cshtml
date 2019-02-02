@@ -21,7 +21,7 @@ ViewData["Title"] = "Converter";
             <select class="custom-select" id="selectMenu" onchange="onSupplierSelect()">
                 <option selected>Wybierz dostawcę</option>
                 <option value="1">CocaCola (Comarch EDI)</option>
-                <option value="2">Dostawca 2</option>
+                <option value="2">CocaCola (TXT file)</option>
                 <option value="3">Dostawca 3</option>
             </select>
         </div>
@@ -99,7 +99,7 @@ ViewData["Title"] = "Converter";
         $('#deliveryFile').val('');
         $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
         $("#downloadButton").prop('hidden', true);
-        if ($("#selectMenu").val() == 1) {
+        if ($("#selectMenu").val() <= 2) {
             $("#selectFile").prop('hidden', false);
             $("#step2-info").prop('hidden', false);
             $("#error").prop('hidden', true);
@@ -115,8 +115,6 @@ ViewData["Title"] = "Converter";
         $("#loading-spinner").prop('hidden', !prop);
         $("#deliveryFile").prop('disabled', prop);
     };
-
-
 
     $("#deliveryFile").change(function () {
         loading(true);

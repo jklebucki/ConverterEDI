@@ -8,7 +8,7 @@ using static CocaColaToEDI.Models.InputFileModel;
 
 namespace CocaColaToEDI.Services
 {
-    public class DeserializeService
+    public class DeserializeServiceXml
     {
         public bool IsError { get; protected set; }
         public string ExeptionMessage { get; protected set; }

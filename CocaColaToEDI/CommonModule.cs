@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CocaColaToEDI
 {
-    class Common
+    class CommonModule
     {
     }
 }
