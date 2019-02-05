@@ -13,10 +13,11 @@ using ConverterEDI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConverterEDI.Controllers
 {
-    public class DecompletionController
+    public class DecompletionController : Controller
     {
         private IConversionService _conversionService { get; set; }
         private ApplicationDbContext _dbContext { get; set; }
@@ -24,6 +25,12 @@ namespace ConverterEDI.Controllers
         {
             _conversionService = conversionService;
             _dbContext = dbContext;
+        }
+
+        public async Task<IActionResult> Index(string supplierId)
+        {
+            var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
+            return View(model);
         }
     }
 }

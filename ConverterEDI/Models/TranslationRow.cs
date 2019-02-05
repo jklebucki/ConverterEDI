@@ -8,6 +8,7 @@ namespace ConverterEDI.Models
     {
         [Key]
         public int TranslationRowId { get; set; }
+        public string SupplierId { get; set; }
         public string SupplierItemCode { get; set; }
         public string BuyerItemCode { get; set; }
         public string BuyerItemDescription { get; set; }
