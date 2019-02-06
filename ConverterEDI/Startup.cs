@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.IO;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace ConverterEDI
 {
@@ -78,6 +80,24 @@ namespace ConverterEDI
 
             app.UseAuthentication();
 
+            var defaultDateCulture = "pl-PL";
+            var ci = new CultureInfo(defaultDateCulture);
+            ci.NumberFormat.NumberDecimalSeparator = ",";
+            ci.NumberFormat.CurrencyDecimalSeparator = ",";
+
+            // Configure the Localization middleware
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(ci),
+                SupportedCultures = new List<CultureInfo>
+                {
+                    ci,
+                },
+                SupportedUICultures = new List<CultureInfo>
+                {
+                    ci,
+                }
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

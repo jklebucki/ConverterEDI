@@ -13,7 +13,7 @@ namespace CarrefourMagnat.Models
         public string ProductName { get; set; }
         public string Field6 { get; set; }
         public string PurchasePrice { get; set; }
-        public string Field8 { get; set; }
+        public string Pkwiu { get; set; }
         public string Unit { get; set; }
         public string Quantity { get; set; }
         public string VatRate { get; set; }

@@ -138,7 +138,7 @@ ViewData["Title"] = "Converter";
 
             success: function (data) {
                 loading(false);
-                //console.log(data['data']);
+                console.log(data['data']);
                 if (data['error'] == false) {
                     $("#error").prop('hidden', true);
                     renderResponse(data['data']);

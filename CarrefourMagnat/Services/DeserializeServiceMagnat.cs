@@ -29,7 +29,7 @@ namespace CarrefourMagnat.Services
                             decimal price = 0.0M;
                             try
                             {
-                                var x = splitedRow[5].Substring(1, splitedRow[5].Length - 1).Replace('.',',');
+                                var x = splitedRow[5].Substring(1, splitedRow[5].Length - 1).Replace('.', ',');
                                 var amount = decimal.Parse(x);
                                 var quantity = decimal.Parse(splitedRow[2].Substring(1, splitedRow[2].Length - 1).Replace('.', ','));
                                 price = decimal.Round((amount / quantity), 2);
@@ -45,7 +45,8 @@ namespace CarrefourMagnat.Services
                                 Quantity = splitedRow[2].Substring(1, splitedRow[2].Length - 1),
                                 PurchasePrice = price.ToString().Replace(',', '.'),
                                 Unit = splitedRow[10].Substring(1, splitedRow[10].Length - 1),
-                                VatRate = splitedRow[9].Substring(1, splitedRow[9].Length - 1)
+                                VatRate = splitedRow[9].Substring(1, splitedRow[9].Length - 1),
+                                Pkwiu = splitedRow[12].Substring(1, splitedRow[12].Length - 1)
                             });
                         }
 

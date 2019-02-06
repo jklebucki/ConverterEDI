@@ -31,7 +31,7 @@ namespace ConverterEDI.Infrustructure
                             PurchasePrice = item.PurchasePrice.Replace(',', '.'),
                             ProductName = item.ProductName,
                             VatRate = item.VatRate.Split('.')[0],
-                            PKWIUCode = "",
+                            PKWIUCode = item.Pkwiu,
                             Unit = item.Unit,
                             ProductCode = "",
                             StationId = "",
