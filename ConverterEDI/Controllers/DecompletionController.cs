@@ -27,9 +27,22 @@ namespace ConverterEDI.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Index(string supplierId)
+        public IActionResult Index(string supplierId)
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ListWithSupplier(string supplierId)
         {
             var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
+            ViewBag.Selection = true;
+            return View(model);
+        }
+
+        public async Task<IActionResult> ListWithSupplier(string supplierId, List<string> supplierCodes)
+        {
+            var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
+            ViewBag.Selection = false;
             return View(model);
         }
     }
