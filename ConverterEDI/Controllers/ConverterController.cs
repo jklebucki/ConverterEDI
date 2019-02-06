@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CarrefourMagnat.Services;
 using CocaColaToEDI.Services;
 using CocaColaTxtEDI.Services;
 using ConverterEDI.Infrustructure;
@@ -109,6 +110,15 @@ namespace ConverterEDI.Controllers
                     var dtTxt = new LoadFromTxt();
                     rows = dtTxt.Load(flatRows);
                     isError = dtTxt.isError;
+                    conversionCode = "CC";
+                    break;
+                case "3":
+                    DeserializeServiceMagnat deserializeMagnat = new DeserializeServiceMagnat();
+                    var flatMagnatRows = await deserializeMagnat.ImportStream(sr);
+                    isError = deserializeMagnat.IsError;
+                    var dtMagnat = new LoadFromMagnat();
+                    rows = dtMagnat.Load(flatMagnatRows);
+                    isError = dtMagnat.isError;
                     conversionCode = "CC";
                     break;
                 default:

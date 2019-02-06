@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CocaColaToEDI", "CocaColaTo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CocaColaTxtEDI", "CocaColaTxtEDI\CocaColaTxtEDI.csproj", "{2206BB0F-862D-4668-9985-82CA6490D2CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarrefourMagnat", "CarrefourMagnat\CarrefourMagnat.csproj", "{7919F9B5-E74A-48DD-A391-68DCF39F4C50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2206BB0F-862D-4668-9985-82CA6490D2CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2206BB0F-862D-4668-9985-82CA6490D2CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2206BB0F-862D-4668-9985-82CA6490D2CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7919F9B5-E74A-48DD-A391-68DCF39F4C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7919F9B5-E74A-48DD-A391-68DCF39F4C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7919F9B5-E74A-48DD-A391-68DCF39F4C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7919F9B5-E74A-48DD-A391-68DCF39F4C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
