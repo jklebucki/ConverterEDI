@@ -32,7 +32,8 @@ namespace ConverterEDI.Infrustructure
                             Unit = item.Unit,
                             ProductCode = "",
                             StationId = "",
-                            SellingPrice = ""
+                            SellingPrice = "",
+                            IsConverted = false
                         });
 
                     }

@@ -17,5 +17,6 @@ namespace ConverterEDI.Models
         public string ProductCode { get; set; }
         public string StationId { get; set; }
         public string SellingPrice { get; set; }
+        public bool IsConverted { get; set; }
     }
 }

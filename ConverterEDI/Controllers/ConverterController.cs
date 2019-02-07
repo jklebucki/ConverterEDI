@@ -142,5 +142,12 @@ namespace ConverterEDI.Controllers
 
             return Json(new { error = isError, message = errorMessage, data = rows });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> GetData(string supplierId)
+        {
+            var rows = await Task.FromResult(_conversionService._ConvertedData.FirstOrDefault(x => x.UserName == User.Identity.Name).ConvertedFile);
+            return Json(new { error = false, message = "no errors", data = rows });
+        }
     }
 }

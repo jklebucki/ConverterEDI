@@ -45,5 +45,12 @@ namespace ConverterEDI.Controllers
             ViewBag.Selection = false;
             return View(model);
         }
+
+        public IActionResult ChangeStatus(string ean, string supplierId)
+        {
+            var test = _conversionService.ChangeStatus(ean, supplierId, User.Identity.Name);
+            var cs = _conversionService._ConvertedData;
+            return Ok(new { updated = true, test });
+        }
     }
 }

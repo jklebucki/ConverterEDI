@@ -1,5 +1,5 @@
 ﻿@{
-ViewData["Title"] = "Converter";
+    ViewData["Title"] = "Converter";
 }
 
 <div class="text-center">
@@ -66,13 +66,13 @@ ViewData["Title"] = "Converter";
     </div>
     <div id="downloadButton" hidden>
         <a class="btn btn-outline-primary" onclick="hideDownloadButtons(true)" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC", fileVersion="full" })'
-            download>Pobierz plik - pełny</a>
+           download>Pobierz plik - pełny</a>
         <a class="btn btn-outline-primary" onclick="hideDownloadButtons(true)" href='@Url.Action("DownloadFile", "Converter" , new { importType="CC", fileVersion="short" })'
-            download>Pobierz plik - skrócony</a>
+           download>Pobierz plik - skrócony</a>
     </div>
 </div>
 @section scripts {
-<script>
+    <script>
     function hideDownloadButtons(value) {
         $("#downloadButton").prop('hidden', value);
         $("#response").html('');
@@ -82,16 +82,50 @@ ViewData["Title"] = "Converter";
 
     function renderResponse(data) {
         var component = '<table style="width: 100%;" class="table table-bordered table-sm">' +
-            '<thead class="thead-light"><tr><th>Nazwa</th><th>Ilość</th><th>Cena</th><th>EAN</th></tr></thead><tbody>';
+            '<thead class="thead-light"><tr><th>Nazwa</th><th>Ilość</th><th>Cena</th><th>EAN</th><th></th></tr></thead><tbody>';
         data.map(function (el) {
+            var buttons = el['isConverted'] == false ? '<td><button onclick="addConversion(' + el['ean'] + ')"class="btn btn-success btn-sm">D</button></td>' :
+                '<td><button onclick="addConversion(' + el['ean'] + ')"class="btn btn-danger btn-sm">X</button></td>';
             component += "<tr><td>" + el['productName'] + "</td>"
                 + "<td>" + el['quantity'] + "</td>"
                 + "<td>" + el['purchasePrice'] + "</td>"
                 + "<td>" + el['ean'] + "</td>"
+                + buttons
                 + "</tr>";
         });
         component += "</tbody></table>";
         $("#response").html(component);
+    }
+
+    function addConversion(ean) {
+        var model = new FormData();
+        model.append("ean", ean);
+        model.append("supplierId", $("#selectMenu").val());
+        loading(true);
+
+        $.ajax({
+            url: '@Url.Action("ChangeStatus", "Decompletion")',
+            type: "POST",
+            data: model,
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+
+            success: function (data) {
+                loading(false);
+                console.log(data);
+                loadDataFromBufor();
+                if (data['error'] == false) {
+                } else {
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr);
+                loading(false);
+            }
+        });
     }
 
     function onSupplierSelect() {
@@ -118,15 +152,17 @@ ViewData["Title"] = "Converter";
     };
 
     $("#deliveryFile").change(function () {
+        loadDataFromFile();
+    });
+
+    function loadDataFromFile() {
         loading(true);
         var files = $('#deliveryFile')[0].files;
-
         var model = new FormData();
         for (var i = 0, f; f = files[i]; i++) {
             model.append("files", $('#deliveryFile')[0].files[i]);
-            model.append("supplierId", $("#selectMenu").val());
         }
-
+        model.append("supplierId", $("#selectMenu").val());
         $.ajax({
             url: '@Url.Action("UploadFiles", "Converter")',
             type: "POST",
@@ -156,7 +192,42 @@ ViewData["Title"] = "Converter";
                 $("#downloadButton").prop('hidden', true);
             }
         });
-    });
+    }
 
-</script>
+    function loadDataFromBufor() {
+        loading(true);
+        var model = new FormData();
+        model.append("supplierId", $("#selectMenu").val());
+        $.ajax({
+            url: '@Url.Action("GetData", "Converter")',
+            type: "POST",
+            data: model,
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+
+            success: function (data) {
+                loading(false);
+                console.log(data['data']);
+                if (data['error'] == false) {
+                    $("#error").prop('hidden', true);
+                    renderResponse(data['data']);
+                    $("#downloadButton").prop('hidden', false);
+                } else {
+                    $("#response").html('');
+                    $("#error").prop('hidden', false);
+                    $("#downloadButton").prop('hidden', true);
+                }
+            },
+
+            error: function (xhr) {
+                console.log(xhr);
+                loading(false);
+                $("#downloadButton").prop('hidden', true);
+            }
+        });
+    }
+
+    </script>
 }

@@ -30,7 +30,8 @@ public class LoadFromXml
                         Unit = item.LineItem.UnitOfMeasure,
                         ProductCode = "",
                         StationId = "",
-                        SellingPrice = ""
+                        SellingPrice = "",
+                        IsConverted = false
                     });
 
                 }
