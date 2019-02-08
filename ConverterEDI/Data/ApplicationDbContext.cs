@@ -20,10 +20,10 @@ namespace ConverterEDI.Data
             base.OnModelCreating(builder);
 
             builder.Entity<TranslationRow>()
-                .HasIndex(t => t.SupplierItemCode)
+                .HasIndex(t => new { t.SupplierItemCode, t.SupplierId })
                 .IsUnique();
             builder.Entity<TranslationRow>()
-                .HasIndex(t => t.BuyerItemCode)
+                .HasIndex(t => new { t.BuyerItemCode, t.SupplierId })
                 .IsUnique();
         }
 
