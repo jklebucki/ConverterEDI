@@ -48,7 +48,8 @@ namespace ConverterEDI.Controllers
 
         public IActionResult ChangeStatus(string ean, string supplierId)
         {
-            var test = _conversionService.ChangeStatus(ean, supplierId, User.Identity.Name);
+            var test = _conversionService.Convert(ean, "59013590001CC", 4, User.Identity.Name, "PIWO TYSKIE GR 0,5L 5,5%");
+            //var test = _conversionService.ChangeStatus(ean, supplierId, User.Identity.Name);
             var cs = _conversionService._ConvertedData;
             return Ok(new { updated = true, test });
         }

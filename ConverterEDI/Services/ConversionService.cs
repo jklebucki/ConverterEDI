@@ -33,15 +33,19 @@ namespace ConverterEDI.Services
             return status;
         }
 
-        public bool Convert(string ean, string supplierId, string userName)
+        public bool Convert(string currentEan, string convertedEan, decimal conversionQuantity, string userName, string convertedProductName)
         {
             var import = _ConvertedData.FirstOrDefault(x => x.UserName == userName);
             var items = import.ConvertedFile;
             bool status = false;
             foreach (var item in items)
             {
-                if (item.EAN == ean)
+                if (item.EAN == currentEan)
                 {
+                    item.EAN = convertedEan;
+                    item.ProductName = convertedProductName;
+                    item.Quantity = (decimal.Parse(item.Quantity) * conversionQuantity).ToString();
+                    item.PurchasePrice = (decimal.Round(decimal.Parse(item.PurchasePrice) / conversionQuantity, 2)).ToString();
                     item.IsConverted = true;
                     status = true;
                 }

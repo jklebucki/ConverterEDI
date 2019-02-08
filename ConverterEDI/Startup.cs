@@ -82,8 +82,8 @@ namespace ConverterEDI
 
             var defaultDateCulture = "pl-PL";
             var ci = new CultureInfo(defaultDateCulture);
-            ci.NumberFormat.NumberDecimalSeparator = ",";
-            ci.NumberFormat.CurrencyDecimalSeparator = ",";
+            ci.NumberFormat.NumberDecimalSeparator = ".";
+            ci.NumberFormat.CurrencyDecimalSeparator = ".";
 
             // Configure the Localization middleware
             app.UseRequestLocalization(new RequestLocalizationOptions

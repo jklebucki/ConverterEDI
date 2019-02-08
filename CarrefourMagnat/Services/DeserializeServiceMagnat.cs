@@ -29,9 +29,9 @@ namespace CarrefourMagnat.Services
                             decimal price = 0.0M;
                             try
                             {
-                                var x = splitedRow[5].Substring(1, splitedRow[5].Length - 1).Replace('.', ',');
+                                var x = splitedRow[5].Substring(1, splitedRow[5].Length - 1).Replace(',', '.');
                                 var amount = decimal.Parse(x);
-                                var quantity = decimal.Parse(splitedRow[2].Substring(1, splitedRow[2].Length - 1).Replace('.', ','));
+                                var quantity = decimal.Parse(splitedRow[2].Substring(1, splitedRow[2].Length - 1).Replace(',', '.'));
                                 price = decimal.Round((amount / quantity), 2);
                             }
                             catch
