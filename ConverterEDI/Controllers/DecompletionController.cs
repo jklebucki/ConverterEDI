@@ -47,9 +47,17 @@ namespace ConverterEDI.Controllers
                 && !string.IsNullOrEmpty(translationRow.BuyerItemDescription)
                 && !string.IsNullOrEmpty(translationRow.BuyerUnitOfMeasure))
             {
-                await _dbContext.AddAsync(translationRow);
-                await _dbContext.SaveChangesAsync();
-                return Ok(new { formData = translationRow });
+                try
+                {
+                    await _dbContext.AddAsync(translationRow);
+                    await _dbContext.SaveChangesAsync();
+                    return Ok(new { formData = translationRow });
+                }
+                catch (DbUpdateException ex)
+                {
+                    return BadRequest(new { error = ex, formData = translationRow });
+                }
+
             }
 
             return BadRequest(new { formData = translationRow });

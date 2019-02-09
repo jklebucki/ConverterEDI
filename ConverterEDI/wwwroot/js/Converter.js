@@ -29,12 +29,12 @@ function renderResponse(data) {
     data.map(function (el) {
         var buttons = el['isConverted'] === false ? '<td><button onclick="editForm(\'' + el['ean'] + '\')"class="btn btn-success btn-sm">D</button></td>' :
             '<td><button onclick="editForm(\'' + el['ean'] + '\')"class="btn btn-danger btn-sm">X</button></td>';
-        component += "<tr><td>" + el['productName'] + "</td>"
-            + "<td>" + el['quantity'] + "</td>"
-            + "<td>" + el['purchasePrice'] + "</td>"
-            + "<td>" + el['ean'] + "</td>"
-            + buttons
-            + "</tr>";
+        component += "<tr><td>" + el['productName'] + "</td>" +
+            "<td>" + el['quantity'] + "</td>" +
+            "<td>" + el['purchasePrice'] + "</td>" +
+            "<td>" + el['ean'] + "</td>" +
+            buttons +
+            "</tr>";
     });
     component += "</tbody></table>";
     $("#response").html(component);
@@ -170,13 +170,19 @@ function addConversion() {
         },
 
         error: function (xhr) {
+            console.log("Błąd: ", xhr);
+            var checkProp = xhr.responseJSON.error;
+            var errMessage = "";
+            if ('innerException' in checkProp) {
+                errMessage = checkProp.innerException.message;
+            }
+            if (errMessage.toLowerCase().includes("unique")) errMessage += '<br>' + "Nie mozesz dodać dekompletacji dla tego samego kodu EAN";
             $("#modalTitle").html('Błąd aplikacji');
-            $("#modalBody").html('Podczas konwersji wystąpił błąd.');
+            $("#modalBody").html('Podczas dodawania dekompletacji wystąpił błąd:<br>' + errMessage);
             $("#modalWindow").modal({
                 show: true,
                 backdrop: 'static'
             });
-            console.log("Błąd: ", xhr);
             loading(false);
         }
     });
