@@ -9,7 +9,6 @@ namespace ConverterEDI.Services
     public interface IConversionService
     {
         List<ConvertedData> _ConvertedData { get; set; }
-        bool ChangeStatus(string ean, string supplierId, string userName);
-        bool Convert(string currentEan, string convertedEan, decimal conversionQuantity, string userName, string convertedProductName);
+        bool Convert(string currentEan, string convertedEan, decimal conversionQuantity, string userName, string convertedProductName, string unit);
     }
 }

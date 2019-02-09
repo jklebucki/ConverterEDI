@@ -2,7 +2,7 @@
 
 namespace ConverterEDI.Data.Migrations
 {
-    public partial class Translations : Migration
+    public partial class TranslationRow : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,11 +20,14 @@ namespace ConverterEDI.Data.Migrations
                 {
                     TranslationRowId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    SupplierId = table.Column<string>(nullable: true),
                     SupplierItemCode = table.Column<string>(nullable: true),
+                    SupplierItemDescription = table.Column<string>(nullable: true),
                     BuyerItemCode = table.Column<string>(nullable: true),
                     BuyerItemDescription = table.Column<string>(nullable: true),
-                    Ratio = table.Column<string>(nullable: true),
-                    UnitOfMeasure = table.Column<string>(nullable: true)
+                    Ratio = table.Column<decimal>(nullable: false),
+                    SupplierUnitOfMeasure = table.Column<string>(nullable: true),
+                    BuyerUnitOfMeasure = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,15 +47,15 @@ namespace ConverterEDI.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranslationRows_BuyerItemCode",
+                name: "IX_TranslationRows_BuyerItemCode_SupplierId",
                 table: "TranslationRows",
-                column: "BuyerItemCode",
+                columns: new[] { "BuyerItemCode", "SupplierId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranslationRows_SupplierItemCode",
+                name: "IX_TranslationRows_SupplierItemCode_SupplierId",
                 table: "TranslationRows",
-                column: "SupplierItemCode",
+                columns: new[] { "SupplierItemCode", "SupplierId" },
                 unique: true);
         }
 

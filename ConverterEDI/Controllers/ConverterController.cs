@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using CarrefourMagnat.Services;
 using CocaColaToEDI.Services;
 using CocaColaTxtEDI.Services;
+using ConverterEDI.Data;
 using ConverterEDI.Infrustructure;
 using ConverterEDI.Models;
 using ConverterEDI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static CocaColaToEDI.Models.InputFileModel;
 
 namespace ConverterEDI.Controllers
@@ -21,10 +23,12 @@ namespace ConverterEDI.Controllers
     public class ConverterController : Controller
     {
         private IConversionService _conversionService { get; set; }
+        private ApplicationDbContext _db { get; set; }
 
-        public ConverterController(IConversionService conversionService)
+        public ConverterController(IConversionService conversionService, ApplicationDbContext db)
         {
             _conversionService = conversionService;
+            _db = db;
         }
 
         public IActionResult Index()
@@ -125,7 +129,6 @@ namespace ConverterEDI.Controllers
                     break;
             }
 
-            isError = rows.Count == 0 ? true : false;
             try
             {
                 _conversionService._ConvertedData.Add(new ConvertedData
@@ -140,6 +143,16 @@ namespace ConverterEDI.Controllers
                 isError = true;
             }
 
+            if (rows.Count > 0)
+            {
+                isError = false;
+                rows = await Convert(rows, supplierId);
+            }
+            else
+            {
+                isError = true;
+            }
+
             return Json(new { error = isError, message = errorMessage, data = rows });
         }
 
@@ -147,7 +160,33 @@ namespace ConverterEDI.Controllers
         public async Task<IActionResult> GetData(string supplierId)
         {
             var rows = await Task.FromResult(_conversionService._ConvertedData.FirstOrDefault(x => x.UserName == User.Identity.Name).ConvertedFile);
+            rows = await Convert(rows, supplierId);
             return Json(new { error = false, message = "no errors", data = rows });
         }
+
+        public async Task<List<EdiDataRow>> Convert(List<EdiDataRow> rows, string supplierId)
+        {
+            var conversionRows = await _db.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
+            if (conversionRows.Count > 0)
+            {
+                foreach (var row in rows)
+                {
+                    if (!row.IsConverted)
+                    {
+                        var convertionRow = conversionRows.FirstOrDefault(x => x.SupplierItemCode == row.EAN);
+                        if (convertionRow != null)
+                            _conversionService.Convert(
+                                row.EAN, 
+                                convertionRow.BuyerItemCode, 
+                                convertionRow.Ratio, 
+                                User.Identity.Name, 
+                                convertionRow.BuyerItemDescription,
+                                convertionRow.BuyerUnitOfMeasure);
+                    }
+                }
+            }
+            return rows;
+        }
+
     }
 }

@@ -18,5 +18,10 @@ namespace ConverterEDI.Models
         public string StationId { get; set; }
         public string SellingPrice { get; set; }
         public bool IsConverted { get; set; }
+        public string OriginalProductName { get; set; }
+        public string OriginalQuantity { get; set; }
+        public string OriginalUnit { get; set; }
+        public string OriginalSellingPrice { get; set; }
+        public string OriginalEAN { get; set; }
     }
 }

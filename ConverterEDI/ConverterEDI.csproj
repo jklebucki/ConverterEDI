@@ -6,6 +6,25 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20190205181045_Translations.cs" />
+    <Compile Remove="Data\Migrations\20190205181045_Translations.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190205203440_Translations-SupplierId.cs" />
+    <Compile Remove="Data\Migrations\20190205203440_Translations-SupplierId.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190208234133_SupplierProductName.cs" />
+    <Compile Remove="Data\Migrations\20190208234133_SupplierProductName.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190208235309_Unique fields.cs" />
+    <Compile Remove="Data\Migrations\20190208235309_Unique fields.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190209164951_New_Fields_translation_row.cs" />
+    <Compile Remove="Data\Migrations\20190209164951_New_Fields_translation_row.Designer.cs" />
+    <Compile Remove="Data\Migrations\20190209170113_TranslationRow.cs" />
+    <Compile Remove="Data\Migrations\20190209170113_TranslationRow.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".DS_Store" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="2.1.2" />

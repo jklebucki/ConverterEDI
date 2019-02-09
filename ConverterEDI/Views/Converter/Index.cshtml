@@ -71,163 +71,82 @@
            download>Pobierz plik - skrócony</a>
     </div>
 </div>
+
+<div class="modal fade" id="modalWindow" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                Wystąpił błąd
+            </div>
+            <div class="modal-footer" id="modalFooter">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Zamknij</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editForm" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editFormTitle">Dodanie dekompletacji</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="editFormBody">
+                <div>
+                    <div class="form-row">
+                        <div class="col-5 mb-2">
+                            <input type="text" readonly class="form-control" id="SupplierItemCode" value="EAN Dostawcy">
+                        </div>
+                        <div class="col-5 mb-2">
+                            <input type="text" readonly class="form-control" id="SupplierItemDescription" placeholder="Nazwa dostawcy">
+                        </div>
+                        <div class="col-2 mb-2">
+                            <input type="text" readonly class="form-control" id="SupplierUnitOfMeasure" placeholder="JM dostawcy">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-5 mb-2">
+                            <input type="text" class="form-control" id="BuyerItemCode" placeholder="EAN docelowy">
+                            <small id="buyerCodeError" hidden class="form-text text-danger">EAN musi zostać uzupełniony.</small>
+                        </div>
+                        <div class="col-5 mb-2">
+                            <input type="text" class="form-control" id="BuyerItemDescription" placeholder="Nazwa odbiorcy">
+                            <small id="buyerItemDescriptionError" hidden class="form-text text-danger">Nazwa odbiorcy musi zostać uzupełniona.</small>
+                        </div>
+                        <div class="col-2 mb-2">
+                            <input type="text" class="form-control" id="BuyerUnitOfMeasure" placeholder="JM odbiorcy">
+                            <small id="buyerUnitOfMeasureError" hidden class="form-text text-danger">Brak jednostki miary.</small>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-3 mb-2">
+                            <label class="col-form-label">Wprowadź przelicznik</label>
+                            <small id="ratioError" hidden class="form-text text-danger">Przelicznik musi by większy od 0</small>
+                        </div>
+                        <div class="col-2 mb-2">
+                            <input type="text" class="form-control" id="Ratio" placeholder="Przelicznik">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="editFormFooter">
+                <button type="button" style="width: 100px;" onclick="addConversion()" class="btn btn-outline-success">Zapisz</button>
+                <button type="button" style="width: 100px;" class="btn btn-outline-secondary" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts {
-    <script>
-    function hideDownloadButtons(value) {
-        $("#downloadButton").prop('hidden', value);
-        $("#response").html('');
-        $('#deliveryFile').val('');
-        $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
-    }
-
-    function renderResponse(data) {
-        var component = '<table style="width: 100%;" class="table table-bordered table-sm">' +
-            '<thead class="thead-light"><tr><th>Nazwa</th><th>Ilość</th><th>Cena</th><th>EAN</th><th></th></tr></thead><tbody>';
-        data.map(function (el) {
-            var buttons = el['isConverted'] == false ? '<td><button onclick="addConversion(' + el['ean'] + ')"class="btn btn-success btn-sm">D</button></td>' :
-                '<td><button onclick="addConversion(' + el['ean'] + ')"class="btn btn-danger btn-sm">X</button></td>';
-            component += "<tr><td>" + el['productName'] + "</td>"
-                + "<td>" + el['quantity'] + "</td>"
-                + "<td>" + el['purchasePrice'] + "</td>"
-                + "<td>" + el['ean'] + "</td>"
-                + buttons
-                + "</tr>";
-        });
-        component += "</tbody></table>";
-        $("#response").html(component);
-    }
-
-    function addConversion(ean) {
-        var model = new FormData();
-        model.append("ean", ean);
-        model.append("supplierId", $("#selectMenu").val());
-        loading(true);
-
-        $.ajax({
-            url: '@Url.Action("ChangeStatus", "Decompletion")',
-            type: "POST",
-            data: model,
-            processData: false,
-            contentType: false,
-            cache: false,
-            enctype: 'multipart/form-data',
-
-            success: function (data) {
-                loading(false);
-                console.log(data);
-                loadDataFromBufor();
-                if (data['error'] == false) {
-                } else {
-                }
-            },
-
-            error: function (xhr) {
-                console.log(xhr);
-                loading(false);
-            }
-        });
-    }
-
-    function onSupplierSelect() {
-        $("#response").html('');
-        $('#deliveryFile').val('');
-        $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
-        $("#downloadButton").prop('hidden', true);
-        $("#response").html('');
-        if ($("#selectMenu").val() <= 3) {
-            $("#selectFile").prop('hidden', false);
-            $("#step2-info").prop('hidden', false);
-            $("#error").prop('hidden', true);
-        } else {
-            $("#selectFile").prop('hidden', true);
-            $("#step2-info").prop('hidden', true);
-            $("#error").prop('hidden', true);
-        }
-    }
-
-    function loading(prop) {
-        $("#loadingInfo").prop('hidden', !prop);
-        $("#loading-spinner").prop('hidden', !prop);
-        $("#deliveryFile").prop('disabled', prop);
-    };
-
-    $("#deliveryFile").change(function () {
-        loadDataFromFile();
-    });
-
-    function loadDataFromFile() {
-        loading(true);
-        var files = $('#deliveryFile')[0].files;
-        var model = new FormData();
-        for (var i = 0, f; f = files[i]; i++) {
-            model.append("files", $('#deliveryFile')[0].files[i]);
-        }
-        model.append("supplierId", $("#selectMenu").val());
-        $.ajax({
-            url: '@Url.Action("UploadFiles", "Converter")',
-            type: "POST",
-            data: model,
-            processData: false,
-            contentType: false,
-            cache: false,
-            enctype: 'multipart/form-data',
-
-            success: function (data) {
-                loading(false);
-                console.log(data['data']);
-                if (data['error'] == false) {
-                    $("#error").prop('hidden', true);
-                    renderResponse(data['data']);
-                    $("#downloadButton").prop('hidden', false);
-                } else {
-                    $("#response").html('');
-                    $("#error").prop('hidden', false);
-                    $("#downloadButton").prop('hidden', true);
-                }
-            },
-
-            error: function (xhr) {
-                console.log(xhr);
-                loading(false);
-                $("#downloadButton").prop('hidden', true);
-            }
-        });
-    }
-
-    function loadDataFromBufor() {
-        loading(true);
-        var model = new FormData();
-        model.append("supplierId", $("#selectMenu").val());
-        $.ajax({
-            url: '@Url.Action("GetData", "Converter")',
-            type: "POST",
-            data: model,
-            processData: false,
-            contentType: false,
-            cache: false,
-            enctype: 'multipart/form-data',
-
-            success: function (data) {
-                loading(false);
-                console.log(data['data']);
-                if (data['error'] == false) {
-                    $("#error").prop('hidden', true);
-                    renderResponse(data['data']);
-                    $("#downloadButton").prop('hidden', false);
-                } else {
-                    $("#response").html('');
-                    $("#error").prop('hidden', false);
-                    $("#downloadButton").prop('hidden', true);
-                }
-            },
-
-            error: function (xhr) {
-                console.log(xhr);
-                loading(false);
-                $("#downloadButton").prop('hidden', true);
-            }
-        });
-    }
-
-    </script>
+    <script src="~/js/Converter.js"></script>
 }

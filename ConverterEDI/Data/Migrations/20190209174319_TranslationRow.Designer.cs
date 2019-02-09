@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConverterEDI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190208235309_Unique fields")]
-    partial class Uniquefields
+    [Migration("20190209174319_TranslationRow")]
+    partial class TranslationRow
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,15 +27,17 @@ namespace ConverterEDI.Data.Migrations
 
                     b.Property<string>("BuyerItemDescription");
 
-                    b.Property<string>("Ratio");
+                    b.Property<string>("BuyerUnitOfMeasure");
+
+                    b.Property<decimal>("Ratio");
 
                     b.Property<string>("SupplierId");
 
                     b.Property<string>("SupplierItemCode");
 
-                    b.Property<string>("SupplierItemName");
+                    b.Property<string>("SupplierItemDescription");
 
-                    b.Property<string>("UnitOfMeasure");
+                    b.Property<string>("SupplierUnitOfMeasure");
 
                     b.HasKey("TranslationRowId");
 

@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ConverterEDI.Controllers
 {
+    [Authorize]
     public class DecompletionController : Controller
     {
         private IConversionService _conversionService { get; set; }
@@ -39,19 +40,27 @@ namespace ConverterEDI.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ListWithSupplier(string supplierId, List<string> supplierCodes)
+        [HttpPost]
+        public async Task<IActionResult> AddConversion([Bind("TranslationRowId,SupplierId,SupplierItemCode,SupplierItemDescription,BuyerItemCode,BuyerItemDescription,Ratio,SupplierUnitOfMeasure,BuyerUnitOfMeasure")]TranslationRow translationRow)
         {
-            var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
-            ViewBag.Selection = false;
-            return View(model);
+            if (!string.IsNullOrEmpty(translationRow.BuyerItemCode)
+                && !string.IsNullOrEmpty(translationRow.BuyerItemDescription)
+                && !string.IsNullOrEmpty(translationRow.BuyerUnitOfMeasure))
+            {
+                await _dbContext.AddAsync(translationRow);
+                await _dbContext.SaveChangesAsync();
+                return Ok(new { formData = translationRow });
+            }
+
+            return BadRequest(new { formData = translationRow });
         }
 
-        public IActionResult ChangeStatus(string ean, string supplierId)
+        [HttpPost]
+        public async Task<IActionResult> GetRowData(string ean)
         {
-            var test = _conversionService.Convert(ean, "59013590001CC", 4, User.Identity.Name, "PIWO TYSKIE GR 0,5L 5,5%");
-            //var test = _conversionService.ChangeStatus(ean, supplierId, User.Identity.Name);
-            var cs = _conversionService._ConvertedData;
-            return Ok(new { updated = true, test });
+            var rowData = await Task.FromResult(_conversionService._ConvertedData.FirstOrDefault(x => x.UserName == User.Identity.Name).ConvertedFile.FirstOrDefault(f => f.EAN == ean));
+
+            return Ok(new { data = rowData });
         }
     }
 }

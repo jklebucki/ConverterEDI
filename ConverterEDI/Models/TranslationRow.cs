@@ -10,11 +10,11 @@ namespace ConverterEDI.Models
         public int TranslationRowId { get; set; }
         public string SupplierId { get; set; }
         public string SupplierItemCode { get; set; }
-        public string SupplierItemName { get; set; }
+        public string SupplierItemDescription { get; set; }
         public string BuyerItemCode { get; set; }
         public string BuyerItemDescription { get; set; }
-        public string Ratio { get; set; }
-        public string UnitOfMeasure { get; set; }
-
+        public decimal Ratio { get; set; }
+        public string SupplierUnitOfMeasure { get; set; }
+        public string BuyerUnitOfMeasure { get; set; }
     }
 }

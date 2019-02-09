@@ -25,15 +25,17 @@ namespace ConverterEDI.Data.Migrations
 
                     b.Property<string>("BuyerItemDescription");
 
-                    b.Property<string>("Ratio");
+                    b.Property<string>("BuyerUnitOfMeasure");
+
+                    b.Property<decimal>("Ratio");
 
                     b.Property<string>("SupplierId");
 
                     b.Property<string>("SupplierItemCode");
 
-                    b.Property<string>("SupplierItemName");
+                    b.Property<string>("SupplierItemDescription");
 
-                    b.Property<string>("UnitOfMeasure");
+                    b.Property<string>("SupplierUnitOfMeasure");
 
                     b.HasKey("TranslationRowId");
 
