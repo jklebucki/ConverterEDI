@@ -39,7 +39,7 @@ namespace ConverterEDI.Data.Migrations
 
                     b.HasKey("TranslationRowId");
 
-                    b.HasIndex("BuyerItemCode", "SupplierId")
+                    b.HasIndex("SupplierItemCode", "BuyerItemCode")
                         .IsUnique();
 
                     b.HasIndex("SupplierItemCode", "SupplierId")

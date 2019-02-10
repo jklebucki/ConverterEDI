@@ -10,5 +10,6 @@ namespace ConverterEDI.Services
     {
         List<ConvertedData> _ConvertedData { get; set; }
         bool Convert(string currentEan, string convertedEan, decimal conversionQuantity, string userName, string convertedProductName, string unit);
+        bool ConvertBack(string currentEan, string userName);
     }
 }

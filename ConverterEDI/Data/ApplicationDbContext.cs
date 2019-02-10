@@ -23,7 +23,7 @@ namespace ConverterEDI.Data
                 .HasIndex(t => new { t.SupplierItemCode, t.SupplierId })
                 .IsUnique();
             builder.Entity<TranslationRow>()
-                .HasIndex(t => new { t.BuyerItemCode, t.SupplierId })
+                .HasIndex(t => new { t.SupplierItemCode, t.BuyerItemCode })
                 .IsUnique();
         }
 

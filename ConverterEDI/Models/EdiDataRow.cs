@@ -21,7 +21,7 @@ namespace ConverterEDI.Models
         public string OriginalProductName { get; set; }
         public string OriginalQuantity { get; set; }
         public string OriginalUnit { get; set; }
-        public string OriginalSellingPrice { get; set; }
+        public string OriginalPurchasePrice { get; set; }
         public string OriginalEAN { get; set; }
     }
 }

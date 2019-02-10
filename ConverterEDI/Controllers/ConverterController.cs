@@ -74,7 +74,8 @@ namespace ConverterEDI.Controllers
 
             byte[] bytes = Encoding.GetEncoding("Windows-1250").GetBytes(rows);
             var result = new FileContentResult(bytes, "application/octet-stream");
-            result.FileDownloadName = fileVersion == "full" ? "document-full.csv" : "document-short.csv";
+            var exportDateTime = DateTime.Now.ToString("yyyyMMdd_Hhhmmss");
+            result.FileDownloadName = "dostawa_" + exportDateTime + ".csv";
             return result;
         }
 
@@ -157,10 +158,11 @@ namespace ConverterEDI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetData(string supplierId)
+        public async Task<IActionResult> GetData(string supplierId, bool convert = true)
         {
             var rows = await Task.FromResult(_conversionService._ConvertedData.FirstOrDefault(x => x.UserName == User.Identity.Name).ConvertedFile);
-            rows = await Convert(rows, supplierId);
+            if (convert)
+                rows = await Convert(rows, supplierId);
             return Json(new { error = false, message = "no errors", data = rows });
         }
 
@@ -176,10 +178,10 @@ namespace ConverterEDI.Controllers
                         var convertionRow = conversionRows.FirstOrDefault(x => x.SupplierItemCode == row.EAN);
                         if (convertionRow != null)
                             _conversionService.Convert(
-                                row.EAN, 
-                                convertionRow.BuyerItemCode, 
-                                convertionRow.Ratio, 
-                                User.Identity.Name, 
+                                row.EAN,
+                                convertionRow.BuyerItemCode,
+                                convertionRow.Ratio,
+                                User.Identity.Name,
                                 convertionRow.BuyerItemDescription,
                                 convertionRow.BuyerUnitOfMeasure);
                     }

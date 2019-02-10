@@ -2,7 +2,7 @@
 
 namespace ConverterEDI.Data.Migrations
 {
-    public partial class TranslationRow : Migration
+    public partial class Converter : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,9 +47,9 @@ namespace ConverterEDI.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TranslationRows_BuyerItemCode_SupplierId",
+                name: "IX_TranslationRows_SupplierItemCode_BuyerItemCode",
                 table: "TranslationRows",
-                columns: new[] { "BuyerItemCode", "SupplierId" },
+                columns: new[] { "SupplierItemCode", "BuyerItemCode" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

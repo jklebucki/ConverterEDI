@@ -26,7 +26,7 @@ namespace ConverterEDI.Services
                 {
                     item.OriginalProductName = item.ProductName;
                     item.OriginalQuantity = item.Quantity;
-                    item.OriginalSellingPrice = item.SellingPrice;
+                    item.OriginalPurchasePrice = item.PurchasePrice;
                     item.OriginalUnit = item.Unit;
                     item.OriginalEAN = item.EAN;
                     item.EAN = convertedEan;
@@ -38,6 +38,27 @@ namespace ConverterEDI.Services
                     status = true;
                 }
 
+            }
+            import.ConvertedFile = items;
+            return status;
+        }
+        public bool ConvertBack(string currentEan, string userName)
+        {
+            var import = _ConvertedData.FirstOrDefault(x => x.UserName == userName);
+            var items = import.ConvertedFile;
+            bool status = false;
+            foreach (var item in items)
+            {
+                if (item.OriginalEAN == currentEan)
+                {
+                    item.ProductName = item.OriginalProductName;
+                    item.Quantity = item.OriginalQuantity;
+                    item.PurchasePrice = item.OriginalPurchasePrice;
+                    item.Unit = item.OriginalUnit;
+                    item.EAN = item.OriginalEAN;
+                    item.IsConverted = false;
+                    status = true;
+                }
             }
             import.ConvertedFile = items;
             return status;

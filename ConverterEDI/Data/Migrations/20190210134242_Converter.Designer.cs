@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConverterEDI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190209174319_TranslationRow")]
-    partial class TranslationRow
+    [Migration("20190210134242_Converter")]
+    partial class Converter
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,7 +41,7 @@ namespace ConverterEDI.Data.Migrations
 
                     b.HasKey("TranslationRowId");
 
-                    b.HasIndex("BuyerItemCode", "SupplierId")
+                    b.HasIndex("SupplierItemCode", "BuyerItemCode")
                         .IsUnique();
 
                     b.HasIndex("SupplierItemCode", "SupplierId")
