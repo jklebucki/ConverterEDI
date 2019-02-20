@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SBenReady.Services;
 using static CocaColaToEDI.Models.InputFileModel;
 
 namespace ConverterEDI.Controllers
@@ -124,6 +125,15 @@ namespace ConverterEDI.Controllers
                     var dtMagnat = new LoadFromMagnat();
                     rows = dtMagnat.Load(flatMagnatRows);
                     isError = dtMagnat.isError;
+                    conversionCode = "CC";
+                    break;
+                case "4":
+                    DeserializeServiceSbenReady deserializeSbenReady = new DeserializeServiceSbenReady();
+                    var flatSbenReadyRows = await deserializeSbenReady.ImportStream(sr);
+                    isError = deserializeSbenReady.IsError;
+                    var dtSbenReady = new LoadFromSbenReady();
+                    rows = dtSbenReady.Load(flatSbenReadyRows);
+                    isError = dtSbenReady.isError;
                     conversionCode = "CC";
                     break;
                 default:

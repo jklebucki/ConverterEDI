@@ -41,6 +41,7 @@
     <ProjectReference Include="..\CarrefourMagnat\CarrefourMagnat.csproj" />
     <ProjectReference Include="..\CocaColaToEDI\CocaColaToEDI.csproj" />
     <ProjectReference Include="..\CocaColaTxtEDI\CocaColaTxtEDI.csproj" />
+    <ProjectReference Include="..\SBenReady\SBenReady.csproj" />
   </ItemGroup>
 
 </Project>
