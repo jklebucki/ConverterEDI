@@ -42,6 +42,7 @@
     <ProjectReference Include="..\CocaColaToEDI\CocaColaToEDI.csproj" />
     <ProjectReference Include="..\CocaColaTxtEDI\CocaColaTxtEDI.csproj" />
     <ProjectReference Include="..\SBenReady\SBenReady.csproj" />
+    <ProjectReference Include="..\ProfastXML\ProfastXML.csproj" />
   </ItemGroup>
 
 </Project>

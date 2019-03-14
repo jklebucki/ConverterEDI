@@ -15,8 +15,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProfastXML.Services;
 using SBenReady.Services;
 using static CocaColaToEDI.Models.InputFileModel;
+using static ProfastXML.Models.InputFileModel;
 
 namespace ConverterEDI.Controllers
 {
@@ -100,7 +102,7 @@ namespace ConverterEDI.Controllers
             switch (supplierId)
             {
                 case "1":
-                    DeserializeServiceXml deserializeXml = new DeserializeServiceXml();
+                    CocaColaToEDI.Services.DeserializeServiceXml deserializeXml = new CocaColaToEDI.Services.DeserializeServiceXml();
                     DocumentInvoice _documentInvoice = new DocumentInvoice();
                     _documentInvoice = await deserializeXml.ImportStream(sr);
                     isError = deserializeXml.IsError;
@@ -134,6 +136,16 @@ namespace ConverterEDI.Controllers
                     var dtSbenReady = new LoadFromSbenReady();
                     rows = dtSbenReady.Load(flatSbenReadyRows);
                     isError = dtSbenReady.isError;
+                    conversionCode = "CC";
+                    break;
+                case "5":
+                    ProfastXML.Services.DeserializeServiceXml deserializeProfastXml = new ProfastXML.Services.DeserializeServiceXml();
+                    DOKUMENT dokument = new DOKUMENT();
+                    dokument = await deserializeProfastXml.ImportStream(sr);
+                    isError = deserializeProfastXml.IsError;
+                    var dtProfastXml = new LoadFromProfastXml();
+                    rows = dtProfastXml.Load(dokument);
+                    isError = dtProfastXml.isError;
                     conversionCode = "CC";
                     break;
                 default:
