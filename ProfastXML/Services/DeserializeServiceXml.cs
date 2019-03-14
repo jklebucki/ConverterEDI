@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using static ProfastXML.Models.InputFileModel;
@@ -10,7 +11,10 @@ namespace ProfastXML.Services
     {
         public bool IsError { get; protected set; }
         public string ExeptionMessage { get; protected set; }
-
+        
+        public DeserializeServiceXml(){
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
         public async Task<DOKUMENT> ImportStream(Stream fileStream)
         {
             DOKUMENT dokument = new DOKUMENT();

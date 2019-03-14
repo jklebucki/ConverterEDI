@@ -226,7 +226,7 @@ function onSupplierSelect() {
     $("#deliveryFile")[0].labels[0].innerText = 'Wybierz plik';
     $("#downloadButton").prop('hidden', true);
     $("#response").html('');
-    if ($("#selectMenu").val() <= 4) {
+    if ($("#selectMenu").val() <= 10) {
         $("#selectFile").prop('hidden', false);
         $("#step2-info").prop('hidden', false);
         $("#error").prop('hidden', true);
