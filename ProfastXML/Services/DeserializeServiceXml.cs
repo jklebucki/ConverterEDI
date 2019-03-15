@@ -11,8 +11,9 @@ namespace ProfastXML.Services
     {
         public bool IsError { get; protected set; }
         public string ExeptionMessage { get; protected set; }
-        
-        public DeserializeServiceXml(){
+
+        public DeserializeServiceXml()
+        {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
         public async Task<DOKUMENT> ImportStream(Stream fileStream)

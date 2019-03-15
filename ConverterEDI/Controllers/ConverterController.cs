@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PGDTxt.Services;
 using ProfastXML.Services;
 using SBenReady.Services;
 using static CocaColaToEDI.Models.InputFileModel;
@@ -146,6 +147,15 @@ namespace ConverterEDI.Controllers
                     var dtProfastXml = new LoadFromProfastXml();
                     rows = dtProfastXml.Load(dokument);
                     isError = dtProfastXml.isError;
+                    conversionCode = "CC";
+                    break;
+                case "6":
+                    DeserializeServicePgd deserializePgd = new DeserializeServicePgd();
+                    var flatPgdRows = await deserializePgd.ImportStream(sr);
+                    isError = deserializePgd.IsError;
+                    var dtPgd = new LoadFromPGDTxt();
+                    rows = dtPgd.Load(flatPgdRows);
+                    isError = dtPgd.isError;
                     conversionCode = "CC";
                     break;
                 default:
