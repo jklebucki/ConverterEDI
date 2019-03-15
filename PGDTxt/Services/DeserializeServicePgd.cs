@@ -12,12 +12,17 @@ namespace PGDTxt.Services
         public bool IsError { get; protected set; }
         public string ExeptionMessage { get; protected set; }
 
+        public DeserializeServicePgd()
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        }
+
         public async Task<List<FlatRow>> ImportStream(Stream fileStream)
         {
             List<FlatRow> rows = new List<FlatRow>();
             try
             {
-                using (StreamReader sr = new StreamReader(fileStream))
+                using (StreamReader sr = new StreamReader(fileStream, Encoding.GetEncoding(1250)))
                 {
                     while (sr.Peek() >= 0)
                     {
