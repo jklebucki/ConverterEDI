@@ -38,8 +38,8 @@ namespace PGDTxt.Services
                                 Quantity = splitedRow[7].Replace("Ilosc{", ""),
                                 PurchasePrice = splitedRow[8].Replace("Cena{n", "").Replace(',', '.'),
                                 Unit = splitedRow[3].Replace("Jm{", ""),
-                                VatRate = splitedRow[3].Replace("Vat{", ""),
-                                Pkwiu = splitedRow[6].Replace("PKWIU{", ""),
+                                VatRate = splitedRow[2].Replace("Vat{", ""),
+                                Pkwiu = splitedRow[6].Replace("PKWiU{", ""),
                             });
                         }
 
