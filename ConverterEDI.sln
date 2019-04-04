@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SBenReady", "SBenReady\SBen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfastXML", "ProfastXML\ProfastXML.csproj", "{47088FE8-C62F-42F0-A720-BC03F6CD5C5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGDTxt", "PGDTxt\PGDTxt.csproj", "{E823DE37-8FD6-45D2-8BAC-902A146B60CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PGDTxt", "PGDTxt\PGDTxt.csproj", "{E823DE37-8FD6-45D2-8BAC-902A146B60CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalicjaTxt", "GalicjaTxt\GalicjaTxt.csproj", "{AAD9C6B4-4F44-4695-8B37-010656E1F7DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E823DE37-8FD6-45D2-8BAC-902A146B60CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E823DE37-8FD6-45D2-8BAC-902A146B60CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E823DE37-8FD6-45D2-8BAC-902A146B60CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD9C6B4-4F44-4695-8B37-010656E1F7DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD9C6B4-4F44-4695-8B37-010656E1F7DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD9C6B4-4F44-4695-8B37-010656E1F7DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD9C6B4-4F44-4695-8B37-010656E1F7DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

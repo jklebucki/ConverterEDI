@@ -42,6 +42,7 @@
     <ProjectReference Include="..\CarrefourMagnat\CarrefourMagnat.csproj" />
     <ProjectReference Include="..\CocaColaToEDI\CocaColaToEDI.csproj" />
     <ProjectReference Include="..\CocaColaTxtEDI\CocaColaTxtEDI.csproj" />
+    <ProjectReference Include="..\GalicjaTxt\GalicjaTxt.csproj" />
     <ProjectReference Include="..\PGDTxt\PGDTxt.csproj" />
     <ProjectReference Include="..\SBenReady\SBenReady.csproj" />
     <ProjectReference Include="..\ProfastXML\ProfastXML.csproj" />

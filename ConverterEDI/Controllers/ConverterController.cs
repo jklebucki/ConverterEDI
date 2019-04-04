@@ -11,6 +11,7 @@ using ConverterEDI.Data;
 using ConverterEDI.Infrustructure;
 using ConverterEDI.Models;
 using ConverterEDI.Services;
+using GalicjaTxt.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -156,6 +157,15 @@ namespace ConverterEDI.Controllers
                     var dtPgd = new LoadFromPGDTxt();
                     rows = dtPgd.Load(flatPgdRows);
                     isError = dtPgd.isError;
+                    conversionCode = "CC";
+                    break;
+                case "7":
+                    DeserializeServiceGalicjaTxt deserializeGalicjaTxt = new DeserializeServiceGalicjaTxt();
+                    var flatGalicjaTxtRows = await deserializeGalicjaTxt.ImportStream(sr);
+                    isError = deserializeGalicjaTxt.IsError;
+                    var dtGalicjaTxt = new LoadFromGalicjaTxt();
+                    rows = dtGalicjaTxt.Load(flatGalicjaTxtRows);
+                    isError = dtGalicjaTxt.isError;
                     conversionCode = "CC";
                     break;
                 default:
