@@ -11,11 +11,16 @@ using ConverterEDI.Data;
 using ConverterEDI.Infrustructure;
 using ConverterEDI.Models;
 using ConverterEDI.Services;
+using GalicjaTxt.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PGDTxt.Services;
+using ProfastXML.Services;
+using SBenReady.Services;
 using static CocaColaToEDI.Models.InputFileModel;
+using static ProfastXML.Models.InputFileModel;
 
 namespace ConverterEDI.Controllers
 {
@@ -99,7 +104,7 @@ namespace ConverterEDI.Controllers
             switch (supplierId)
             {
                 case "1":
-                    DeserializeServiceXml deserializeXml = new DeserializeServiceXml();
+                    CocaColaToEDI.Services.DeserializeServiceXml deserializeXml = new CocaColaToEDI.Services.DeserializeServiceXml();
                     DocumentInvoice _documentInvoice = new DocumentInvoice();
                     _documentInvoice = await deserializeXml.ImportStream(sr);
                     isError = deserializeXml.IsError;
@@ -124,6 +129,43 @@ namespace ConverterEDI.Controllers
                     var dtMagnat = new LoadFromMagnat();
                     rows = dtMagnat.Load(flatMagnatRows);
                     isError = dtMagnat.isError;
+                    conversionCode = "CC";
+                    break;
+                case "4":
+                    DeserializeServiceSbenReady deserializeSbenReady = new DeserializeServiceSbenReady();
+                    var flatSbenReadyRows = await deserializeSbenReady.ImportStream(sr);
+                    isError = deserializeSbenReady.IsError;
+                    var dtSbenReady = new LoadFromSbenReady();
+                    rows = dtSbenReady.Load(flatSbenReadyRows);
+                    isError = dtSbenReady.isError;
+                    conversionCode = "CC";
+                    break;
+                case "5":
+                    ProfastXML.Services.DeserializeServiceXml deserializeProfastXml = new ProfastXML.Services.DeserializeServiceXml();
+                    DOKUMENT dokument = new DOKUMENT();
+                    dokument = await deserializeProfastXml.ImportStream(sr);
+                    isError = deserializeProfastXml.IsError;
+                    var dtProfastXml = new LoadFromProfastXml();
+                    rows = dtProfastXml.Load(dokument);
+                    isError = dtProfastXml.isError;
+                    conversionCode = "CC";
+                    break;
+                case "6":
+                    DeserializeServicePgd deserializePgd = new DeserializeServicePgd();
+                    var flatPgdRows = await deserializePgd.ImportStream(sr);
+                    isError = deserializePgd.IsError;
+                    var dtPgd = new LoadFromPGDTxt();
+                    rows = dtPgd.Load(flatPgdRows);
+                    isError = dtPgd.isError;
+                    conversionCode = "CC";
+                    break;
+                case "7":
+                    DeserializeServiceGalicjaTxt deserializeGalicjaTxt = new DeserializeServiceGalicjaTxt();
+                    var flatGalicjaTxtRows = await deserializeGalicjaTxt.ImportStream(sr);
+                    isError = deserializeGalicjaTxt.IsError;
+                    var dtGalicjaTxt = new LoadFromGalicjaTxt();
+                    rows = dtGalicjaTxt.Load(flatGalicjaTxtRows);
+                    isError = dtGalicjaTxt.isError;
                     conversionCode = "CC";
                     break;
                 default:

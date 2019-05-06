@@ -34,6 +34,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
 
 
@@ -41,6 +42,10 @@
     <ProjectReference Include="..\CarrefourMagnat\CarrefourMagnat.csproj" />
     <ProjectReference Include="..\CocaColaToEDI\CocaColaToEDI.csproj" />
     <ProjectReference Include="..\CocaColaTxtEDI\CocaColaTxtEDI.csproj" />
+    <ProjectReference Include="..\GalicjaTxt\GalicjaTxt.csproj" />
+    <ProjectReference Include="..\PGDTxt\PGDTxt.csproj" />
+    <ProjectReference Include="..\SBenReady\SBenReady.csproj" />
+    <ProjectReference Include="..\ProfastXML\ProfastXML.csproj" />
   </ItemGroup>
 
 </Project>

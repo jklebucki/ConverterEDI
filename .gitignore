@@ -262,3 +262,6 @@ __pycache__/
 /ConverterEDI/db/ConverterEDI.db
 ConverterEDI/ConverterEDI.db
 /ConverterEDI/config.json
+.DS_Store
+ConverterEDI/.DS_Store
+.DS_Store
