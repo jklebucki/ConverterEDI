@@ -429,3 +429,25 @@ function updateConversion(ean) {
         }
     });
 }
+
+function removeUser(userId) {
+    var model = new FormData();
+    model.append("userId", userId);
+    $.ajax({
+        url: '/Home/DeleteUser',
+        type: "POST",
+        data: model,
+        processData: false,
+        contentType: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+
+        success: function (resp) {
+            location.href = '/Home/Privacy';
+        },
+
+        error: function (xhr) {
+            console.log("Błąd: ", xhr);
+        }
+    });
+}

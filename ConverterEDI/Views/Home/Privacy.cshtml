@@ -1,6 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@model List<IdentityUser>;
+
+@{
+    ViewData["Title"] = "Polityka prywatności";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<p>Nie przechowujemy ciasteczek.</p>
+<p>Konto możesz usunąć samodzielnie. Dane konta używane są wyłącznie w celu autoryzacji w tym serwisie.</p>
+
+<table class="table table-bordered table-sm">
+    @if (Model.Count > 0)
+    {
+        <thead>
+            <tr>
+                <th>Nazwa użytkownika</th>
+                <th>E-mail potwierdzony</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.UserName</td>
+                    <td>@item.EmailConfirmed</td>
+                    <td><button class="btn btn-danger" onclick="removeUser('@item.Id')">Usuń</button></td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>
+@section scripts {
+    <script src="~/js/Converter002.js"></script>
+}
