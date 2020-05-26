@@ -222,7 +222,7 @@ namespace ConverterEDI.Controllers
                             _conversionService.Convert(
                                 row.EAN,
                                 convertionRow.BuyerItemCode,
-                                convertionRow.Ratio,
+                                convertionRow.Ratio == 0? 99999: convertionRow.Ratio,
                                 User.Identity.Name,
                                 convertionRow.BuyerItemDescription,
                                 convertionRow.BuyerUnitOfMeasure);

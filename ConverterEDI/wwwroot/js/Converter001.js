@@ -58,7 +58,6 @@ function editForm(option, ean) {
                 "buyerUnitOfMeasure": resp.data.buyerUnitOfMeasure,
                 "ratio": resp.data.ratio
             };
-            console.log(editRow);
             completeFormData(option, editRow);
         },
 
@@ -95,7 +94,8 @@ function completeFormData(option, dt) {
     $("#Ratio").val(dt.ratio);
 }
 
-function BuyerItemCodeValidate(isError, model) {
+function BuyerItemCodeValidate(model) {
+    var isError = false;
     if (model.get("BuyerItemCode").length === 0) {
         $("#buyerCodeError").prop('hidden', false);
         isError = true;
@@ -105,7 +105,8 @@ function BuyerItemCodeValidate(isError, model) {
     return isError;
 }
 
-function BuyerItemDescriptionValidate(isError, model) {
+function BuyerItemDescriptionValidate(model) {
+    var isError = false;
     if (model.get("BuyerItemDescription").length === 0) {
         $("#buyerItemDescriptionError").prop('hidden', false);
         isError = true;
@@ -115,7 +116,8 @@ function BuyerItemDescriptionValidate(isError, model) {
     return isError;
 }
 
-function BuyerUnitOfMeasureValidate(isError, model) {
+function BuyerUnitOfMeasureValidate(model) {
+    var isError = false;
     if (model.get("BuyerUnitOfMeasure").length === 0) {
         $("#buyerUnitOfMeasureError").prop('hidden', false);
         isError = true;
@@ -125,8 +127,10 @@ function BuyerUnitOfMeasureValidate(isError, model) {
     return isError;
 }
 
-function RatioValidate(isError, model) {
-    if (Number(model.get("Ratio")) <= 0) {
+function RatioValidate(model) {
+    var isError = false;
+    var ratio = Number(model.get("Ratio"));
+    if (isNaN(ratio) || ratio <= 0) {
         $("#ratioError").prop('hidden', false);
         isError = true;
     } else {
@@ -137,30 +141,31 @@ function RatioValidate(isError, model) {
 
 $("#BuyerItemCode").change(function () {
     var model = setModel();
-    BuyerItemCodeValidate(false, model);
+    BuyerItemCodeValidate(model);
 });
 
 $("#BuyerItemDescription").change(function () {
     var model = setModel();
-    BuyerItemDescriptionValidate(false, model);
+    BuyerItemDescriptionValidate(model);
 });
 
 $("#BuyerUnitOfMeasure").change(function () {
     var model = setModel();
-    BuyerUnitOfMeasureValidate(false, model);
+    BuyerUnitOfMeasureValidate(model);
 });
 
 $("#Ratio").change(function () {
     var model = setModel();
-    RatioValidate(false, model);
-})
+    RatioValidate(model);
+});
 
 function validateForm(model) {
-    var isError = BuyerItemCodeValidate(false, model);
-    isError = BuyerItemDescriptionValidate(isError, model);
-    isError = BuyerUnitOfMeasureValidate(isError, model);
-    isError = RatioValidate(isError, model);
-    return isError;
+    if (BuyerItemCodeValidate(model) ||
+        BuyerItemDescriptionValidate(model) ||
+        BuyerUnitOfMeasureValidate(model) ||
+        RatioValidate(model))
+        return true;
+    return false;
 }
 
 
@@ -184,8 +189,6 @@ function addConversion() {
         return null;
     }
 
-    $("#editForm").modal('hide');
-
     loading(true);
     $.ajax({
         url: '/Decompletion/AddConversion',
@@ -199,6 +202,7 @@ function addConversion() {
         success: function (resp) {
             loading(false);
             loadDataFromBufor();
+            $("#editForm").modal('hide');
         },
 
         error: function (xhr) {
@@ -264,7 +268,6 @@ function loadDataFromFile() {
 
         success: function (data) {
             loading(false);
-            console.log(data['data']);
             if (data['error'] === false) {
                 $("#error").prop('hidden', true);
                 renderResponse(data['data']);
@@ -303,7 +306,6 @@ function loadDataFromBufor(option) {
 
         success: function (data) {
             loading(false);
-            console.log(data['data']);
             if (data['error'] === false) {
                 $("#error").prop('hidden', true);
                 renderResponse(data['data']);
@@ -331,7 +333,7 @@ function FormFooter(option, ean) {
             '<button type="button" style="width: 100px;" onclick="editFormClose()" class="btn btn-outline-secondary" data-dismiss="modal">Zamknij</button>';
     } else if (option === 'edit') {
         component = '<button type="button" style="width: 100px;" onclick="removeConversion(\'' + ean + '\')" class="btn btn-outline-danger" data-dismiss="modal">Usuń</button>' +
-            '<button type="button" onclick="updateConversion(\'' + ean + '\')" class="btn btn-outline-success" data-dismiss="modal">Zapisz zmiany</button>' +
+            '<button type="button" onclick="updateConversion(\'' + ean + '\')" class="btn btn-outline-success" >Zapisz zmiany</button>' +
             '<button type="button" style="width: 100px;" onclick="editFormClose()" class="btn btn-outline-secondary" data-dismiss="modal">Zamknij</button>';
     }
     return component;
@@ -386,6 +388,13 @@ function removeConversion(ean) {
 function updateConversion(ean) {
     var model = setModel();
 
+    var isError = validateForm(model);
+
+    if (isError) {
+        return null;
+    }
+
+
     loading(true);
     $.ajax({
         url: '/Decompletion/UpdateConversion',
@@ -399,6 +408,7 @@ function updateConversion(ean) {
         success: function (resp) {
             loading(false);
             loadDataFromBufor();
+            $("#editForm").modal('hide');
         },
 
         error: function (xhr) {
