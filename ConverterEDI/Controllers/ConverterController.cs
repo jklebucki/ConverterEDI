@@ -79,7 +79,7 @@ namespace ConverterEDI.Controllers
 
             byte[] bytes = Encoding.GetEncoding("Windows-1250").GetBytes(rows);
             var result = new FileContentResult(bytes, "application/octet-stream");
-            var exportDateTime = DateTime.Now.ToString("yyyyMMdd_Hhhmmss");
+            var exportDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             result.FileDownloadName = "dostawa_" + exportDateTime + ".csv";
             return result;
         }
