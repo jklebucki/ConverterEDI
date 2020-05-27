@@ -44,6 +44,18 @@ namespace ConverterEDI.Controllers
                 return BadRequest(result.Errors);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ConfirmUserEmail(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (result == IdentityResult.Success)
+                return Ok();
+            else
+                return BadRequest(result.Errors);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

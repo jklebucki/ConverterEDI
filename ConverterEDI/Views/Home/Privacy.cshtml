@@ -24,7 +24,10 @@
                 <tr>
                     <td>@item.UserName</td>
                     <td>@item.EmailConfirmed</td>
-                    <td><button class="btn btn-danger" onclick="removeUser('@item.Id')">Usuń</button></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removeUser('@item.Id')">Usuń</button>
+                        <button class="btn btn-success btn-sm" onclick="confirmUserEmail('@item.Id')">Potwierdź</button>
+                    </td>
                 </tr>
             }
         </tbody>
