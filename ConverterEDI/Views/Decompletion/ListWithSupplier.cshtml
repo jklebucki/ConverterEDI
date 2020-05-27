@@ -17,25 +17,22 @@
             <thead>
                 <tr>
                     <th>EAN Dostawcy</th>
+                    <th>EAN Nabywcy</th>
                     <th>Nazwa docelowa</th>
+                    <th>Przelicznik</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.SupplierItemCode</td>
-                        <td>@item.BuyerItemDescription</td>
-                    </tr>
+                <tr>
+                    <td>@item.SupplierItemCode</td>
+                    <td>@item.BuyerItemCode</td>
+                    <td>@item.BuyerItemDescription</td>
+                    <td>@item.Ratio</td>
+                </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
-@section scripts{
-    <script>
-        function save(){
-            
-        }
-    </script>
-}

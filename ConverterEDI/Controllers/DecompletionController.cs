@@ -29,8 +29,6 @@ namespace ConverterEDI.Controllers
         public async Task<IActionResult> ListWithSupplier(string supplierId)
         {
             var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
-            model = await _dbContext.TranslationRows.ToListAsync();
-            ViewBag.Selection = true;
             return View(model);
         }
 
