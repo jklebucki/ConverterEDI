@@ -23,7 +23,7 @@
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EDI Converter</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
@@ -52,8 +52,10 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - Citronex - <a asp-area="" asp-controller="Home" asp-action="Privacy">Informacje dotyczące
-                prywatności</a>
+            &copy; 2019 - Citronex - <a asp-area="" asp-controller="Home" asp-action="Privacy">
+                Informacje dotyczące
+                prywatności
+            </a>
         </div>
     </footer>
 
@@ -63,19 +65,20 @@
     </environment>
     <environment exclude="Development">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-            asp-fallback-test="window.jQuery" crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-            </script>
+                asp-fallback-test="window.jQuery" crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" crossorigin="anonymous"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k">
-            </script>
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" crossorigin="anonymous"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k">
+        </script>
     </environment>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js" asp-fallback-src="~/lib/jquery/dist/bs-custom-file-input.min.js"
-        asp-fallback-test="window.jQuery" crossorigin="anonymous">
-        </script>
+            asp-fallback-test="window.jQuery" crossorigin="anonymous">
+    </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+    @*<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>*@
+    <script src="https://unpkg.com/@@popperjs/core@2"></script>
     <script>
         $(document).ready(function () {
             bsCustomFileInput.init();
