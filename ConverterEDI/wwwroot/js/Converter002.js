@@ -1,4 +1,5 @@
-﻿function hideDownloadButtons(value) {
+﻿
+function hideDownloadButtons(value) {
     $("#downloadButton").prop('hidden', value);
     $("#response").html('');
     $('#deliveryFile').val('');
