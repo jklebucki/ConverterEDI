@@ -1,5 +1,3 @@
-using System;
-
 namespace ConverterEDI.Models
 {
     public class ErrorViewModel

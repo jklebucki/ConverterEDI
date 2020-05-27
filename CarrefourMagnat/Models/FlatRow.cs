@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CarrefourMagnat.Models
+﻿namespace CarrefourMagnat.Models
 {
     public class FlatRow
     {

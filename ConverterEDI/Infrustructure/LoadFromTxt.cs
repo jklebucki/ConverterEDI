@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using CocaColaTxtEDI.Models;
 using ConverterEDI.Models;
+using System.Collections.Generic;
 
 namespace ConverterEDI.Infrustructure
 {

@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using ConverterEDI.Models;
 using SBenReady.Models;
+using System.Collections.Generic;
 
 namespace ConverterEDI.Infrustructure
 {

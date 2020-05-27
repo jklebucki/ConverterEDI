@@ -1,16 +1,11 @@
-﻿using System;
+﻿using ConverterEDI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ConverterEDI.Models;
-using System.IO;
-using Microsoft.AspNetCore.Http;
-using CocaColaToEDI.Services;
-using static CocaColaToEDI.Models.InputFileModel;
-using ConverterEDI.Services;
-using Microsoft.AspNetCore.Identity;
 
 namespace ConverterEDI.Controllers
 {

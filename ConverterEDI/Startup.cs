@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ConverterEDI.Data;
+using ConverterEDI.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ConverterEDI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ConverterEDI.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.IO;
+using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.AspNetCore.Localization;
+using System.IO;
 
 namespace ConverterEDI
 {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CocaColaTxtEDI
+﻿namespace CocaColaTxtEDI
 {
     public class CommonModule
     {

@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using ConverterEDI.Models;
-using static CocaColaToEDI.Models.InputFileModel;
+using System.Collections.Generic;
 using static ProfastXML.Models.InputFileModel;
 
 public class LoadFromProfastXml

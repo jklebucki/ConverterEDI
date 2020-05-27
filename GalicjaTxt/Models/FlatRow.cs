@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GalicjaTxt.Models
+﻿namespace GalicjaTxt.Models
 {
     public class FlatRow
     {

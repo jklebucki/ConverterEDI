@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CarrefourMagnat.Services;
-using CocaColaToEDI.Services;
+﻿using CarrefourMagnat.Services;
 using CocaColaTxtEDI.Services;
 using ConverterEDI.Data;
 using ConverterEDI.Infrustructure;
@@ -17,8 +10,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PGDTxt.Services;
-using ProfastXML.Services;
 using SBenReady.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static CocaColaToEDI.Models.InputFileModel;
 using static ProfastXML.Models.InputFileModel;
 
@@ -222,7 +220,7 @@ namespace ConverterEDI.Controllers
                             _conversionService.Convert(
                                 row.EAN,
                                 convertionRow.BuyerItemCode,
-                                convertionRow.Ratio == 0? 99999: convertionRow.Ratio,
+                                convertionRow.Ratio == 0 ? 99999 : convertionRow.Ratio,
                                 User.Identity.Name,
                                 convertionRow.BuyerItemDescription,
                                 convertionRow.BuyerUnitOfMeasure);

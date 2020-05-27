@@ -1,8 +1,8 @@
+using SBenReady.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using SBenReady.Models;
 
 namespace SBenReady.Services
 {

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using ConverterEDI.Models;
+using System.Collections.Generic;
 using static CocaColaToEDI.Models.InputFileModel;
 
 public class LoadFromXml

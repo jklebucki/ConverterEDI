@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CocaColaToEDI.Services;
-using CocaColaTxtEDI.Services;
 using ConverterEDI.Data;
-using ConverterEDI.Infrustructure;
 using ConverterEDI.Models;
 using ConverterEDI.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ConverterEDI.Controllers
 {
@@ -36,12 +29,13 @@ namespace ConverterEDI.Controllers
         public async Task<IActionResult> ListWithSupplier(string supplierId)
         {
             var model = await _dbContext.TranslationRows.Where(x => x.SupplierId == supplierId).ToListAsync();
+            model = await _dbContext.TranslationRows.ToListAsync();
             ViewBag.Selection = true;
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddConversion([Bind("TranslationRowId,SupplierId,SupplierItemCode,SupplierItemDescription,BuyerItemCode,BuyerItemDescription,Ratio,SupplierUnitOfMeasure,BuyerUnitOfMeasure")]TranslationRow translationRow)
+        public async Task<IActionResult> AddConversion([Bind("TranslationRowId,SupplierId,SupplierItemCode,SupplierItemDescription,BuyerItemCode,BuyerItemDescription,Ratio,SupplierUnitOfMeasure,BuyerUnitOfMeasure")] TranslationRow translationRow)
         {
             if (!string.IsNullOrEmpty(translationRow.BuyerItemCode)
                 && !string.IsNullOrEmpty(translationRow.BuyerItemDescription)
@@ -107,7 +101,7 @@ namespace ConverterEDI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateConversion([Bind("TranslationRowId,SupplierId,SupplierItemCode,SupplierItemDescription,BuyerItemCode,BuyerItemDescription,Ratio,SupplierUnitOfMeasure,BuyerUnitOfMeasure")]TranslationRow translationRow)
+        public async Task<IActionResult> UpdateConversion([Bind("TranslationRowId,SupplierId,SupplierItemCode,SupplierItemDescription,BuyerItemCode,BuyerItemDescription,Ratio,SupplierUnitOfMeasure,BuyerUnitOfMeasure")] TranslationRow translationRow)
         {
             var rowToChange = await _dbContext.TranslationRows.FirstOrDefaultAsync(x => x.SupplierId == translationRow.SupplierId && x.SupplierItemCode == translationRow.SupplierItemCode);
             if (rowToChange != null)
